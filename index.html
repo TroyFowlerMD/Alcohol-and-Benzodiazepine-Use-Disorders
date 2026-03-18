@@ -882,7 +882,7 @@ body {
 </nav>
 
 <!-- CATEGORY NAV --> <div class="cat-nav" id="catNav"> <button class="cat-nav-btn active" data-cat="cat1" style="background:#FF6B6B" onclick="filterCategory('cat1')">Clinical Withdrawal Syndromes</button> <button class="cat-nav-btn" data-cat="cat2" style="background:#4ECDC4" onclick="filterCategory('cat2')">Neurobiology of Dependence</button> <button class="cat-nav-btn" data-cat="cat3" style="background:#FFD93D" onclick="filterCategory('cat3')">Acute Management</button> <button class="cat-nav-btn" data-cat="cat4" style="background:#6BCB77" onclick="filterCategory('cat4')">Long-Term Treatment &amp; MAT</button> <button class="cat-nav-btn" data-cat="cat5" style="background:#9B59B6" onclick="filterCategory('cat5')">Recovery &amp; Outcomes</button> </div> <!-- PROGRESS TRACKER -->
-<div class="progress-tracker" id="progressTracker" style="display:none">
+<div class="progress-tracker" id="progressTracker" style<button class="cat-nav-btn" data-cat="cat2" style="background:#4ECDC4" onclick="filterCategory('cat2')">Neurobiology of Dependence</button><button class="cat-nav-btn" data-cat="cat3" style="background:#FFD93D;color:#1a1d27" onclick="filterCategory('cat3')">Acute Management</button><button class="cat-nav-btn" data-cat="cat4" style="background:#6BCB77;color:#1a1d27" onclick="filterCategory('cat4')">Long-Term Treatment &amp; MAT</button><button class="cat-nav-btn" data-cat="cat5" style="background:#9B59B6" onclick="filterCategory('cat5')">Recovery &amp; Outcomes</button>
   <button class="progress-toggle" id="progressToggle">
     <span class="arrow">▾</span> Session Progress
   </button>
@@ -2279,7 +2279,7 @@ renderCaseList();
 renderPharma();
 renderMyths();
 updateProgress();
-   // CATEGORY NAV FILTER
+   // CATEGORY NAV FILTER window.filterCategory = function(catId) { document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active')); const btn = document.querySelector('.cat-nav-btn[data-cat="'+catId+'"]'); if(btn) btn.classList.add('active'); const cards = document.querySelectorAll('#knowledge-tree .cat-card'); const catIds = ['cat1','cat2','cat3','cat4','cat5']; cards.forEach((card, i) => { card.style.display = (catId === 'all' || catIds[i] === catId) ? '' : 'none'; }); };
 document.querySelectorAll('.cat-nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
