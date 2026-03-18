@@ -1480,7 +1480,7 @@ function renderKnowledgeTree(filterCatId) {
       </div>
       <div class="cat-body"></div>
     `;
-    card.querySelector('.cat-header').addEventListener('click', () => card.classList.toggle('open'));
+    card.setAttribute('data-catid', cat.id); card.querySelector('.cat-header').addEventListener('click', () => card.classList.toggle('open'));
     const body = card.querySelector('.cat-body');
     cat.subtopics.forEach(sub => {
       const subNode = buildTree({title: sub.title, children: sub.children}, 2, cat.color, cat.name);
