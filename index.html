@@ -665,7 +665,7 @@ body {
   display: none; align-items: center; gap: 0.25rem;
   transition: all var(--transition);
 }
-.breadcrumb-bar.visible { display: flex; }
+.breadcrumb-bar.visible { display: none; }
 .breadcrumb-bar span { cursor: pointer; transition: color var(--transition); }
 .breadcrumb-bar span:hover { color: var(--text); }
 .breadcrumb-sep { color: var(--text-faint); margin: 0 2px; cursor: default !important; }
@@ -867,7 +867,7 @@ body {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     <div class="nav-logo-text">
       <span class="nav-logo-line1">Alcohol &amp; Benzodiazepine Use Disorder</span>
-      <span class="nav-logo-line2">An Interactive Educational Dashboard</span>
+      <span class="nav-logo-line2">AddictionEd by TroyMD</span>
     </div>
   </div>
   <div class="nav-tabs">
@@ -882,7 +882,7 @@ body {
 </nav>
 
 <!-- PROGRESS TRACKER -->
-<div class="progress-tracker" id="progressTracker">
+<div class="progress-tracker" id="progressTracker" style="display:none">
   <button class="progress-toggle" id="progressToggle">
     <span class="arrow">▾</span> Session Progress
   </button>
@@ -913,11 +913,11 @@ body {
         <option value="3">+ Sub-subtopics (L3)</option>
       </select>
     </label>
-    <button class="ctrl-btn accent" id="ciwaBtn">CIWA-Ar Calculator</button>
+    <button class="ctrl-btn" id="ciwaBtn">CIWA-Ar Calculator</button>
     <button class="ctrl-btn" id="rxRefBtn">Rx Quick Reference</button>
     <button class="ctrl-btn" id="printBtn">🖨 Print View</button>
   </div>
-  <div class="breadcrumb-bar" id="breadcrumbBar"></div>
+  
   <div id="knowledge-tree"></div>
 </div>
 
