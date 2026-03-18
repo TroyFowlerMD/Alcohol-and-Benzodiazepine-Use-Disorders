@@ -2274,11 +2274,24 @@ document.getElementById('fcStartBtn').addEventListener('click', () => {
 // ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
-renderKnowledgeTree('cat1');
+renderKnowledgeTree('all');
 renderCaseList();
 renderPharma();
 renderMyths();
 updateProgress();
+   // CATEGORY NAV FILTER
+document.querySelectorAll('.cat-nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const catId = btn.getAttribute('data-cat');
+    const cards = document.querySelectorAll('#knowledge-tree .cat-card');
+    cards.forEach((card, i) => {
+      const catIds = ['cat1','cat2','cat3','cat4','cat5'];
+      card.style.display = (catId === 'all' || catIds[i] === catId) ? '' : 'none';
+    });
+  });
+});
 
 </script>
 <footer style="text-align:center;padding:16px 24px;margin-top:32px;font-size:0.72rem;color:var(--text-faint);line-height:1.6;"><strong>Medical Disclaimer:</strong> This tool is intended for educational purposes only and does not constitute medical advice, diagnosis, or treatment. Clinical decisions should be made by qualified healthcare professionals based on individual patient circumstances. Information provided may not reflect the most current clinical guidelines. Always consult current literature and institutional protocols before applying any information to patient care.</footer></body>
