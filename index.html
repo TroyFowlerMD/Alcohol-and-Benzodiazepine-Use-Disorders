@@ -93,12 +93,18 @@ body {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
-  display: flex; flex-direction: column-reverse;  padding: 0 1.25rem;
+  display: flex; flex-direction: column;  padding: 0 1.25rem;
 }
 .nav-row-top {
   display: flex; align-items: center; gap: 0.5rem;
   width: 100%; padding: 0.5rem 0;
 }
+.nav-back-link {
+  font-size: 0.72rem; color: var(--text-faint); text-decoration: none;
+  white-space: nowrap; padding: 0.2rem 0.5rem; border-radius: 4px;
+  transition: color var(--transition);
+}
+.nav-back-link:hover { color: var(--cat2); }
 .nav-logo {
   font-weight: 700; font-size: 0.95rem;
   color: var(--text);
@@ -644,13 +650,37 @@ body {
 }
 .nav-util-btn:hover { color: var(--text-muted); border-color: var(--border-hover); }
 
-/* CAT NAV — activity-tab style */
+/* INLINE SEARCH (compact, nav-area) */
+.nav-inline-search {
+  display: flex; align-items: center; gap: 0;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0 0.5rem; height: 30px;
+  transition: border-color var(--transition);
+  min-width: 180px; max-width: 240px;
+}
+.nav-inline-search:focus-within { border-color: var(--cat2); }
+.ni-icon { display: flex; align-items: center; color: var(--text-faint); flex-shrink: 0; margin-right: 0.35rem; }
+.nav-inline-search input {
+  border: none; background: transparent; color: var(--text);
+  font-size: 0.78rem; outline: none; width: 100%;
+  font-family: var(--font-body);
+}
+.nav-inline-search input::placeholder { color: var(--text-faint); }
+.ni-reset {
+  background: none; border: none; color: var(--text-faint);
+  font-size: 0.68rem; cursor: pointer; padding: 0 0.25rem;
+  white-space: nowrap; transition: color var(--transition);
+}
+.ni-reset:hover { color: var(--text-muted); }
+
+/* CAT NAV — now sits at top of content area, below nav */
 .cat-nav {
   display: none; width: 100%;
-  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   background: var(--surface);
-  padding: 0 0.25rem;
+  padding: 0 1.25rem;
   overflow-x: auto; white-space: nowrap;
+  position: sticky; top: 0; z-index: 90;
 }
 .cat-nav.visible { display: flex; gap: 0; }
 .cat-nav-btn {
@@ -923,11 +953,159 @@ body {
 .pharma-opt-feedback.shown { display: block; }
 
 /* PRINT STYLES */
+
+/* BENZO CONVERSION CALCULATOR MODAL */
+.benzo-modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 300; align-items: center; justify-content: center; padding: 1rem;
+}
+.benzo-modal-overlay.active { display: flex; }
+.benzo-modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.75rem; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+}
+.benzo-modal h2 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+.benzo-modal .benzo-subtitle { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+.benzo-input-row {
+  display: flex; gap: 0.75rem; align-items: flex-end; margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+.benzo-field { display: flex; flex-direction: column; gap: 0.3rem; }
+.benzo-field label { font-size: 0.78rem; font-weight: 500; color: var(--text-muted); }
+.benzo-field select, .benzo-field input {
+  padding: 0.45rem 0.65rem; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text); font-size: 0.82rem; font-family: var(--font-body);
+  outline: none; transition: border-color var(--transition);
+}
+.benzo-field select:focus, .benzo-field input:focus { border-color: var(--cat2); }
+.benzo-field input { width: 100px; font-family: var(--font-mono); }
+.benzo-convert-btn {
+  padding: 0.45rem 1rem; background: var(--cat2); color: #0f1117; border: none;
+  border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  transition: opacity var(--transition); font-family: var(--font-body);
+}
+.benzo-convert-btn:hover { opacity: 0.85; }
+.benzo-results {
+  margin-top: 0.5rem;
+}
+.benzo-results table {
+  width: 100%; border-collapse: collapse; font-size: 0.78rem;
+}
+.benzo-results th {
+  text-align: left; padding: 0.5rem 0.65rem; font-weight: 600;
+  background: var(--surface-2); border-bottom: 1px solid var(--border);
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.benzo-results td {
+  padding: 0.5rem 0.65rem; border-bottom: 1px solid var(--border);
+}
+.benzo-results tr.active-row { background: var(--cat2-bg2); }
+.benzo-results .dose-val { font-family: var(--font-mono); font-weight: 600; }
+.benzo-results .dose-range { font-size: 0.72rem; color: var(--text-faint); }
+.benzo-ref { font-size: 0.7rem; color: var(--text-faint); margin-top: 1rem; line-height: 1.5; }
+.benzo-footer { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem; }
+
+/* STANDARD DRINKS CALCULATOR MODAL */
+.drinks-modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 300; align-items: center; justify-content: center; padding: 1rem;
+}
+.drinks-modal-overlay.active { display: flex; }
+.drinks-modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.75rem; max-width: 620px; width: 100%; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+}
+.drinks-modal h2 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+.drinks-modal .drinks-subtitle { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+.drinks-entry {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 0.85rem; margin-bottom: 0.75rem;
+}
+.drinks-entry-row {
+  display: flex; gap: 0.65rem; align-items: flex-end; flex-wrap: wrap;
+}
+.drinks-field { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 90px; }
+.drinks-field label { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); }
+.drinks-field select, .drinks-field input {
+  padding: 0.45rem 0.55rem; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text); font-size: 0.82rem; font-family: var(--font-body);
+  outline: none; transition: border-color var(--transition);
+}
+.drinks-field input { font-family: var(--font-mono); }
+.drinks-field select:focus, .drinks-field input:focus { border-color: var(--cat2); }
+.drinks-result-box {
+  margin-top: 1rem; padding: 1rem; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 8px; text-align: center;
+}
+.drinks-result-number {
+  font-size: 2rem; font-weight: 700; font-family: var(--font-mono);
+  color: var(--cat2);
+}
+.drinks-result-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+.drinks-result-detail { font-size: 0.75rem; color: var(--text-faint); margin-top: 0.35rem; }
+.drinks-presets {
+  display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.drinks-preset-btn {
+  padding: 0.3rem 0.6rem; font-size: 0.72rem; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 5px; color: var(--text-muted);
+  cursor: pointer; transition: all var(--transition); font-family: var(--font-body);
+}
+.drinks-preset-btn:hover { color: var(--text); border-color: var(--border-hover); }
+.drinks-ref { font-size: 0.7rem; color: var(--text-faint); margin-top: 1rem; line-height: 1.5; }
+.drinks-footer { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem; }
+.drinks-add-btn {
+  padding: 0.35rem 0.75rem; font-size: 0.78rem; background: none;
+  border: 1px dashed var(--border); border-radius: 6px; color: var(--text-muted);
+  cursor: pointer; transition: all var(--transition); width: 100%;
+  font-family: var(--font-body);
+}
+.drinks-add-btn:hover { color: var(--text); border-color: var(--border-hover); }
+.drinks-remove-btn {
+  background: none; border: none; color: var(--text-faint); cursor: pointer;
+  font-size: 0.9rem; padding: 0.2rem 0.4rem; transition: color var(--transition);
+  align-self: flex-end;
+}
+.drinks-remove-btn:hover { color: var(--cat1); }
+.drinks-entry-subtotal {
+  display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem;
+  margin-top: 0.45rem; padding-top: 0.4rem; border-top: 1px solid var(--border);
+  font-size: 0.75rem; color: var(--text-muted);
+}
+.drinks-entry-subtotal .drinks-sub-val {
+  font-family: var(--font-mono); font-weight: 600; color: var(--text);
+}
+.drinks-entry-label {
+  display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;
+}
+.drinks-entry-label input {
+  background: transparent; border: none; border-bottom: 1px solid var(--border);
+  color: var(--text); font-size: 0.8rem; font-weight: 500; padding: 0.15rem 0;
+  outline: none; width: 100%; transition: border-color var(--transition);
+  font-family: var(--font-body);
+}
+.drinks-entry-label input:focus { border-bottom-color: var(--cat2); }
+.drinks-entry-label input::placeholder { color: var(--text-faint); font-weight: 400; }
+.drinks-breakdown {
+  margin-top: 0.5rem; padding: 0.5rem 0; border-top: 1px dashed var(--border);
+}
+.drinks-breakdown-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.75rem; padding: 0.2rem 0;
+}
+.drinks-breakdown-row .dbr-label { color: var(--text-muted); }
+.drinks-breakdown-row .dbr-val { font-family: var(--font-mono); font-weight: 500; color: var(--text); }
+.drinks-qty-field { min-width: 55px !important; max-width: 65px; flex: 0.4 !important; }
+.drinks-qty-field input { text-align: center; }
+
 @media print {
   body { background: #fff !important; color: #000 !important; font-size: 11pt; }
   .topnav, .search-bar, .explore-controls, .breadcrumb-bar, .progress-tracker, .explore-empty,
   .site-footer, .nav-right, .theme-toggle, .discussion-q .q-icon,
-  .ciwa-modal-overlay, .rx-modal-overlay, .jep-modal-overlay { display: none !important; }
+  .ciwa-modal-overlay, .rx-modal-overlay, .jep-modal-overlay, .benzo-modal-overlay, .drinks-modal-overlay { display: none !important; }
   .panel { display: block !important; padding: 0; max-width: 100%; }
   #panel-activities { display: none !important; }
   .cat-card { break-inside: avoid; border: 1px solid #ccc; margin-bottom: 0.75rem; page-break-inside: avoid; }
@@ -944,20 +1122,20 @@ body {
 <!-- TOP NAV -->
 <nav class="topnav">
   <div class="nav-row-top">
-       <nav style="padding: 0.5rem 2rem; margin-top: -1rem; text-align: center;">
-    <a href="https://troyfowlermd.github.io/AddictionEd/" style="color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.9rem; display: inline-flex; align-items: center; transition: color var(--transition);" onmouseover="this.style.color='#667eea'" onmouseout="this.style.color='var(--text)'">
-      ← Back to AddictionEd Hub
-    </a>
-  </nav>
-
-    <div class="nav-logo" style="transform: scale(1.3); margin: 1.5rem 0; text-align: center; flex-direction: column; align-items: center;">
+    <a href="https://troyfowlermd.github.io/AddictionEd/" class="nav-back-link" title="Back to AddictionEd Hub">← Hub</a>
+    <div class="nav-logo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
       <div class="nav-logo-text">
         <span class="nav-logo-line1">Alcohol &amp; Benzodiazepine Use Disorders</span>
         <span class="nav-logo-line2">AddictionEd by TroyMD</span>
       </div>
     </div>
-    <div class="nav-inline-search">           <span class="ni-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>           <input type="text" id="searchInput" placeholder="Search all content...">           <button class="ni-reset" id="resetBtn">Reset</button>         </div>         <div class="nav-right">
+    <div class="nav-inline-search">
+      <span class="ni-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+      <input type="text" id="searchInput" placeholder="Search content...">
+      <button class="ni-reset" id="resetBtn">Reset</button>
+    </div>
+    <div class="nav-right">
       <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
@@ -968,10 +1146,15 @@ body {
     <button class="nav-tab" data-tab="activities">Activities</button>
     <div class="nav-tab-spacer"></div>
     <button class="nav-util-btn" id="ciwaBtnNav">CIWA-Ar Calculator</button>
+    <button class="nav-util-btn" id="benzoBtnNav">Benzo Converter</button>
+    <button class="nav-util-btn" id="drinksBtnNav">Standard Drinks</button>
     <button class="nav-util-btn" id="rxRefBtnNav">Rx Quick Reference</button>
     <button class="nav-util-btn" id="printBtnNav">🖨 Print View</button>
   </div>
-<div class="cat-nav" id="catNav"></div></nav>
+</nav>
+
+<!-- CATEGORY NAV (top of content area) -->
+<div class="cat-nav" id="catNav"></div>
 
 <!-- PROGRESS TRACKER -->
 <div class="progress-tracker" id="progressTracker" style="display:none">
@@ -990,11 +1173,7 @@ body {
 
 <!-- EXPLORE PANEL -->
 <div class="panel active" id="panel-explore">
-  <div class="search-bar">
-    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-    <input type="text" id="searchInput" placeholder="Search all content...">
-    <button class="reset-btn" id="resetBtn">Reset All</button>
-  </div>
+
   <div class="explore-controls">
     <button class="ctrl-btn" id="collapseAllBtn">Collapse All</button>
     <button class="ctrl-btn" id="expandAllBtn">Expand All</button>
@@ -1159,6 +1338,102 @@ body {
     </div>
     <div style="text-align:right;margin-top:1rem;">
       <button class="setup-btn secondary" id="rxCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- BENZO CONVERSION CALCULATOR MODAL -->
+<div class="benzo-modal-overlay" id="benzoModal">
+  <div class="benzo-modal">
+    <h2>Benzodiazepine Equivalency Converter</h2>
+    <div class="benzo-subtitle">Approximate oral dose equivalents. Based on ASAM Clinical Practice Guideline (2025) and the Ashton Manual. Equivalencies are approximations — individual patient response varies by metabolism, tolerance, and clinical context.</div>
+    <div class="benzo-input-row">
+      <div class="benzo-field">
+        <label>Source Benzodiazepine</label>
+        <select id="benzoSource">
+          <option value="diazepam">Diazepam</option>
+          <option value="alprazolam">Alprazolam</option>
+          <option value="chlordiazepoxide">Chlordiazepoxide</option>
+          <option value="clonazepam">Clonazepam</option>
+          <option value="clorazepate">Clorazepate</option>
+          <option value="lorazepam">Lorazepam</option>
+          <option value="oxazepam">Oxazepam</option>
+          <option value="temazepam">Temazepam</option>
+          <option value="triazolam">Triazolam</option>
+          <option value="midazolam">Midazolam (oral)</option>
+        </select>
+      </div>
+      <div class="benzo-field">
+        <label>Dose (mg)</label>
+        <input type="number" id="benzoDose" value="10" min="0" step="0.25">
+      </div>
+      <button class="benzo-convert-btn" id="benzoConvertBtn">Convert</button>
+    </div>
+    <div class="benzo-results" id="benzoResults"></div>
+    <div class="benzo-ref">
+      <strong>Sources:</strong> ASAM Clinical Practice Guideline on Management of Benzodiazepine Use Disorder (2025); Ashton CH. Benzodiazepines: How They Work &amp; How to Withdraw (2002, rev. 2013). Midazolam oral bioavailability ~40%, IV equivalence differs.<br>
+      <em>Clinical note:</em> These are consensus approximations. Cross-tolerance is incomplete. Taper decisions require individualized assessment of duration of use, daily dose, half-life, and patient risk factors (seizure history, polysubstance use).
+    </div>
+    <div class="benzo-footer">
+      <button class="setup-btn secondary" id="benzoResetBtn">Reset</button>
+      <button class="setup-btn secondary" id="benzoCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- STANDARD DRINKS CALCULATOR MODAL -->
+<div class="drinks-modal-overlay" id="drinksModal">
+  <div class="drinks-modal">
+    <h2>Standard Drinks Calculator</h2>
+    <div class="drinks-subtitle">1 US standard drink = 14 g (0.6 fl oz) pure alcohol (NIAAA/CDC). Enter beverage details to calculate standard drink equivalents.</div>
+    <div class="drinks-presets">
+      <button class="drinks-preset-btn" data-preset="beer-12">12 oz Beer (5%)</button>
+      <button class="drinks-preset-btn" data-preset="wine-5">5 oz Wine (12%)</button>
+      <button class="drinks-preset-btn" data-preset="spirit-1.5">1.5 oz Spirit (40%)</button>
+      <button class="drinks-preset-btn" data-preset="ipa-16">16 oz IPA (7%)</button>
+      <button class="drinks-preset-btn" data-preset="malt-25">25 oz Malt Liquor (8%)</button>
+      <button class="drinks-preset-btn" data-preset="fortified-3">3 oz Fortified Wine (20%)</button>
+    </div>
+    <div id="drinksEntries">
+      <div class="drinks-entry" data-entry="0">
+        <div class="drinks-entry-label"><input type="text" class="drinks-name" placeholder="Beverage label (optional, e.g. 'Evening beers')" value=""></div>
+        <div class="drinks-entry-row">
+          <div class="drinks-field drinks-qty-field">
+            <label>Qty</label>
+            <input type="number" class="drinks-qty" value="1" min="0" step="1">
+          </div>
+          <div class="drinks-field">
+            <label>Volume each</label>
+            <input type="number" class="drinks-vol" value="12" min="0" step="0.1">
+          </div>
+          <div class="drinks-field" style="min-width:70px;flex:0.6;">
+            <label>Unit</label>
+            <select class="drinks-unit">
+              <option value="oz" selected>fl oz</option>
+              <option value="ml">mL</option>
+            </select>
+          </div>
+          <div class="drinks-field">
+            <label>ABV %</label>
+            <input type="number" class="drinks-abv" value="5" min="0" max="100" step="0.1">
+          </div>
+        </div>
+        <div class="drinks-entry-subtotal">= <span class="drinks-sub-val">1.0</span> std drinks</div>
+      </div>
+    </div>
+    <button class="drinks-add-btn" id="drinksAddBtn">+ Add Another Beverage</button>
+    <div class="drinks-result-box" id="drinksResultBox">
+      <div id="drinksBreakdown" class="drinks-breakdown" style="display:none;"></div>
+      <div class="drinks-result-number" id="drinksResultNum">1.0</div>
+      <div class="drinks-result-label">total standard drink(s) per day</div>
+      <div class="drinks-result-detail" id="drinksResultDetail">= 14.0 g pure alcohol</div>
+    </div>
+    <div class="drinks-ref">
+      <strong>Reference:</strong> NIAAA defines 1 US standard drink as any beverage containing ~14 g pure ethanol (0.6 fl oz). Formula: (volume × ABV × 0.789 g/mL) ÷ 14 g. NIAAA low-risk drinking limits: ≤4 drinks/day and ≤14/week (men); ≤3 drinks/day and ≤7/week (women).
+    </div>
+    <div class="drinks-footer">
+      <button class="setup-btn secondary" id="drinksResetBtn">Reset</button>
+      <button class="setup-btn secondary" id="drinksCloseBtn">Close</button>
     </div>
   </div>
 </div>
@@ -2411,6 +2686,213 @@ window.startFlashcards = function() {
 document.getElementById('fcStartBtn').addEventListener('click', () => {
   startFlashcards();
 });
+
+
+// ═══════════════════════════════════════════════════════
+// BENZO EQUIVALENCY CONVERTER
+// ═══════════════════════════════════════════════════════
+const BENZO_DATA = {
+  // Approximate equivalent to 10 mg oral diazepam
+  // Using midpoint of ranges from ASAM 2025 + Ashton Manual
+  diazepam:         { equiv: 10,    name: 'Diazepam',          halfLife: '20-100 h (active metabolites)',  notes: 'Long-acting; reference standard' },
+  alprazolam:       { equiv: 0.75,  name: 'Alprazolam',        halfLife: '6-12 h',                         notes: 'ASAM: 1 mg; Ashton: 0.5 mg ≈ 10 mg diazepam' },
+  chlordiazepoxide: { equiv: 25,    name: 'Chlordiazepoxide',  halfLife: '5-30 h (active metabolites)',    notes: 'Long-acting; commonly used for AWS' },
+  clonazepam:       { equiv: 0.5,   name: 'Clonazepam',        halfLife: '18-50 h',                        notes: 'Long-acting; high potency' },
+  clorazepate:      { equiv: 15,    name: 'Clorazepate',       halfLife: '36-200 h (active metabolite)',   notes: 'Prodrug → desmethyldiazepam' },
+  lorazepam:        { equiv: 1,     name: 'Lorazepam',         halfLife: '10-20 h',                        notes: 'No active metabolites; preferred in hepatic impairment' },
+  oxazepam:         { equiv: 17.5,  name: 'Oxazepam',          halfLife: '4-15 h',                         notes: 'No active metabolites; short-acting' },
+  temazepam:        { equiv: 20,    name: 'Temazepam',         halfLife: '8-22 h',                         notes: 'Hypnotic; no active metabolites' },
+  triazolam:        { equiv: 0.375, name: 'Triazolam',         halfLife: '2-5 h',                          notes: 'Ultra-short; ASAM: 0.5 mg; Ashton: 0.25 mg' },
+  midazolam:        { equiv: 4,     name: 'Midazolam (oral)',  halfLife: '1.5-2.5 h',                      notes: 'Oral bioavailability ~40%; IV dose differs' }
+};
+
+function convertBenzo() {
+  const sourceKey = document.getElementById('benzoSource').value;
+  const dose = parseFloat(document.getElementById('benzoDose').value) || 0;
+  const source = BENZO_DATA[sourceKey];
+  if (!source || dose <= 0) return;
+
+  // Convert to diazepam equivalent first
+  const diazepamEquiv = (dose / source.equiv) * 10;
+
+  let html = '<table><thead><tr><th>Benzodiazepine</th><th>Equivalent Dose</th><th>Half-Life</th><th>Notes</th></tr></thead><tbody>';
+  for (const [key, benzo] of Object.entries(BENZO_DATA)) {
+    const equivDose = (diazepamEquiv / 10) * benzo.equiv;
+    const rounded = equivDose < 1 ? equivDose.toFixed(3) : equivDose < 10 ? equivDose.toFixed(2) : equivDose.toFixed(1);
+    const isSource = key === sourceKey;
+    html += '<tr' + (isSource ? ' class="active-row"' : '') + '>';
+    html += '<td>' + (isSource ? '<strong>' + benzo.name + '</strong>' : benzo.name) + '</td>';
+    html += '<td><span class="dose-val">' + rounded + ' mg</span></td>';
+    html += '<td style="font-size:0.72rem;color:var(--text-muted);">' + benzo.halfLife + '</td>';
+    html += '<td style="font-size:0.72rem;color:var(--text-faint);">' + benzo.notes + '</td>';
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('benzoResults').innerHTML = html;
+}
+
+document.getElementById('benzoBtnNav').addEventListener('click', () => {
+  document.getElementById('benzoModal').classList.add('active');
+  convertBenzo();
+});
+document.getElementById('benzoConvertBtn').addEventListener('click', convertBenzo);
+document.getElementById('benzoDose').addEventListener('input', convertBenzo);
+document.getElementById('benzoSource').addEventListener('change', convertBenzo);
+document.getElementById('benzoCloseBtn').addEventListener('click', () => {
+  document.getElementById('benzoModal').classList.remove('active');
+});
+document.getElementById('benzoResetBtn').addEventListener('click', () => {
+  document.getElementById('benzoSource').value = 'diazepam';
+  document.getElementById('benzoDose').value = '10';
+  convertBenzo();
+});
+document.getElementById('benzoModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('benzoModal')) document.getElementById('benzoModal').classList.remove('active');
+});
+
+// ═══════════════════════════════════════════════════════
+// STANDARD DRINKS CALCULATOR
+// ═══════════════════════════════════════════════════════
+const DRINK_PRESETS = {
+  'beer-12':    { vol: 12, unit: 'oz', abv: 5,  name: 'Beer' },
+  'wine-5':     { vol: 5,  unit: 'oz', abv: 12, name: 'Wine' },
+  'spirit-1.5': { vol: 1.5, unit: 'oz', abv: 40, name: 'Spirits' },
+  'ipa-16':     { vol: 16, unit: 'oz', abv: 7,  name: 'IPA' },
+  'malt-25':    { vol: 25, unit: 'oz', abv: 8,  name: 'Malt Liquor' },
+  'fortified-3':{ vol: 3,  unit: 'oz', abv: 20, name: 'Fortified Wine' }
+};
+
+let drinksEntryCount = 1;
+
+function calcEntryDrinks(entry) {
+  const qty = parseFloat(entry.querySelector('.drinks-qty').value) || 0;
+  const vol = parseFloat(entry.querySelector('.drinks-vol').value) || 0;
+  const unit = entry.querySelector('.drinks-unit').value;
+  const abv = parseFloat(entry.querySelector('.drinks-abv').value) || 0;
+  const volMl = unit === 'oz' ? vol * 29.5735 : vol;
+  const gramsPerUnit = volMl * (abv / 100) * 0.789;
+  const totalGrams = gramsPerUnit * qty;
+  return { stdDrinks: totalGrams / 14, grams: totalGrams, qty };
+}
+
+function calcStandardDrinks() {
+  let totalGrams = 0;
+  const entries = document.querySelectorAll('.drinks-entry');
+  const breakdownRows = [];
+
+  entries.forEach((entry, i) => {
+    const result = calcEntryDrinks(entry);
+    totalGrams += result.grams;
+
+    // Update per-row subtotal
+    const subEl = entry.querySelector('.drinks-sub-val');
+    if (subEl) subEl.textContent = result.stdDrinks.toFixed(1);
+
+    // Build breakdown label
+    const nameInput = entry.querySelector('.drinks-name');
+    const label = (nameInput && nameInput.value.trim()) || ('Beverage ' + (i + 1));
+    const qty = result.qty;
+    breakdownRows.push({ label: qty > 1 ? label + ' (×' + qty + ')' : label, std: result.stdDrinks });
+  });
+
+  const stdDrinks = totalGrams / 14;
+  document.getElementById('drinksResultNum').textContent = stdDrinks.toFixed(1);
+  document.getElementById('drinksResultDetail').textContent = '= ' + totalGrams.toFixed(1) + ' g pure alcohol';
+
+  // Show breakdown if multiple entries
+  const bdEl = document.getElementById('drinksBreakdown');
+  if (entries.length > 1) {
+    bdEl.style.display = 'block';
+    bdEl.innerHTML = breakdownRows.map(r =>
+      '<div class="drinks-breakdown-row"><span class="dbr-label">' + r.label + '</span><span class="dbr-val">' + r.std.toFixed(1) + '</span></div>'
+    ).join('');
+  } else {
+    bdEl.style.display = 'none';
+    bdEl.innerHTML = '';
+  }
+
+  // Color code
+  const numEl = document.getElementById('drinksResultNum');
+  if (stdDrinks <= 1.5) numEl.style.color = 'var(--cat2)';
+  else if (stdDrinks <= 3) numEl.style.color = 'var(--cat3)';
+  else if (stdDrinks <= 5) numEl.style.color = '#ff9800';
+  else numEl.style.color = 'var(--cat1)';
+}
+
+function makeDrinksEntryHTML(opts) {
+  opts = opts || {};
+  const name = opts.name || '';
+  const qty = opts.qty || 1;
+  const vol = opts.vol || 12;
+  const unit = opts.unit || 'oz';
+  const abv = opts.abv || 5;
+  const showRemove = opts.showRemove !== false;
+  return '<div class="drinks-entry-label"><input type="text" class="drinks-name" placeholder="Beverage label (optional, e.g. &apos;Evening beers&apos;)" value="' + name + '"></div>' +
+    '<div class="drinks-entry-row">' +
+    '<div class="drinks-field drinks-qty-field"><label>Qty</label><input type="number" class="drinks-qty" value="' + qty + '" min="0" step="1"></div>' +
+    '<div class="drinks-field"><label>Volume each</label><input type="number" class="drinks-vol" value="' + vol + '" min="0" step="0.1"></div>' +
+    '<div class="drinks-field" style="min-width:70px;flex:0.6;"><label>Unit</label><select class="drinks-unit"><option value="oz"' + (unit === 'oz' ? ' selected' : '') + '>fl oz</option><option value="ml"' + (unit === 'ml' ? ' selected' : '') + '>mL</option></select></div>' +
+    '<div class="drinks-field"><label>ABV %</label><input type="number" class="drinks-abv" value="' + abv + '" min="0" max="100" step="0.1"></div>' +
+    (showRemove ? '<button class="drinks-remove-btn" title="Remove">✕</button>' : '') +
+    '</div>' +
+    '<div class="drinks-entry-subtotal">= <span class="drinks-sub-val">0.0</span> std drinks</div>';
+}
+
+function addDrinksEntry(opts) {
+  const container = document.getElementById('drinksEntries');
+  const idx = drinksEntryCount++;
+  const div = document.createElement('div');
+  div.className = 'drinks-entry';
+  div.dataset.entry = idx;
+  div.innerHTML = makeDrinksEntryHTML(Object.assign({ showRemove: true }, opts || {}));
+  div.querySelector('.drinks-remove-btn').addEventListener('click', () => {
+    div.remove();
+    calcStandardDrinks();
+  });
+  div.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calcStandardDrinks));
+  container.appendChild(div);
+  calcStandardDrinks();
+}
+
+// Preset buttons — populate the LAST entry (or the first if only one)
+document.querySelectorAll('.drinks-preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const p = DRINK_PRESETS[btn.dataset.preset];
+    if (!p) return;
+    const entries = document.querySelectorAll('.drinks-entry');
+    const entry = entries[entries.length - 1];
+    if (entry) {
+      entry.querySelector('.drinks-vol').value = p.vol;
+      entry.querySelector('.drinks-unit').value = p.unit;
+      entry.querySelector('.drinks-abv').value = p.abv;
+      const nameEl = entry.querySelector('.drinks-name');
+      if (nameEl && !nameEl.value.trim()) nameEl.value = p.name || '';
+      calcStandardDrinks();
+    }
+  });
+});
+
+document.getElementById('drinksAddBtn').addEventListener('click', () => addDrinksEntry());
+document.getElementById('drinksBtnNav').addEventListener('click', () => {
+  document.getElementById('drinksModal').classList.add('active');
+  calcStandardDrinks();
+});
+document.getElementById('drinksCloseBtn').addEventListener('click', () => {
+  document.getElementById('drinksModal').classList.remove('active');
+});
+document.getElementById('drinksResetBtn').addEventListener('click', () => {
+  document.getElementById('drinksEntries').innerHTML =
+    '<div class="drinks-entry" data-entry="0">' + makeDrinksEntryHTML({ showRemove: false }) + '</div>';
+  drinksEntryCount = 1;
+  document.querySelectorAll('.drinks-entry input, .drinks-entry select').forEach(el => el.addEventListener('input', calcStandardDrinks));
+  calcStandardDrinks();
+});
+document.getElementById('drinksModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('drinksModal')) document.getElementById('drinksModal').classList.remove('active');
+});
+
+// Attach listeners to initial entry inputs
+document.querySelectorAll('.drinks-entry input, .drinks-entry select').forEach(el => el.addEventListener('input', calcStandardDrinks));
 
 // ═══════════════════════════════════════════════════════
 // INIT
